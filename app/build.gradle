@@ -6,6 +6,14 @@ android {
     namespace 'dev.glist.glistapp'
     compileSdk 33
 
+    sourceSets {
+        main {
+            java.srcDirs = ['java']
+            assets.srcDirs = ['cpp/assets']
+            res.srcDirs = ['res']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
     defaultConfig {
         applicationId "dev.glist.glistapp"
         minSdk 16
@@ -33,7 +41,7 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path file('src/main/cpp/CMakeLists.txt')
+            path file('cpp/CMakeLists.txt')
             version '3.22.1'
         }
     }
