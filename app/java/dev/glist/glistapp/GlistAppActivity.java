@@ -22,6 +22,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
         System.loadLibrary("fmod");
     }
 
+    private SurfaceView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
         getSupportActionBar().hide();
         setContentView(R.layout.main);
-        SurfaceView surfaceView = findViewById(R.id.surfaceview);
-        surfaceView.getHolder().addCallback(this);
+        view = findViewById(R.id.surfaceview);
+        view.getHolder().addCallback(this);
         GlistNative.onCreate();
         GlistNative.setAssetManager(getAssets());
     }
@@ -83,7 +84,10 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        return super.onTouchEvent(event);
+        int[] coords = new int[2];
+        view.getLocationInWindow(coords);
+        float x = event.getRawX() - coords[0];
+        float y = event.getRawY() - coords[1];
+        return GlistNative.onTouchEvent(event, (int) x, (int) y);
     }
 }

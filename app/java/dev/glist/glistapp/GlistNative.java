@@ -1,6 +1,7 @@
 package dev.glist.glistapp;
 
 import android.content.res.AssetManager;
+import android.view.MotionEvent;
 import android.view.Surface;
 
 public class GlistNative {
@@ -18,6 +19,6 @@ public class GlistNative {
     public static native void onResume();
 
     public static native void setSurface(Surface surface);
-
     public static native void setAssetManager(AssetManager assets);
+    public static native boolean onTouchEvent(MotionEvent event, int x, int y);
 }

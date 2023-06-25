@@ -113,7 +113,7 @@ void GameCanvas::update() {
 }
 
 void GameCanvas::draw() {
-    gLogi("GameCanvas") << "draw";
+    //gLogi("GameCanvas") << "draw";
 }
 
 void GameCanvas::keyPressed(int key) {
