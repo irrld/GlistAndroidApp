@@ -1,40 +1,34 @@
-package dev.glist.glistapp;
+package dev.glist.android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.res.AssetManager;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
+import android.view.WindowManager;
 
 import org.fmod.FMOD;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
+import dev.glist.android.lib.GlistNative;
+import dev.glist.glistapp.R;
 
 public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder.Callback {
-
-    static {
-        System.loadLibrary("fmod");
-    }
 
     private SurfaceView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        view = GlistNative.init(this);
         FMOD.init(this);
 
-        getSupportActionBar().hide();
-        setContentView(R.layout.main);
-        view = findViewById(R.id.surfaceview);
-        view.getHolder().addCallback(this);
+        // Your settings can go here.
+        //GlistNative.setFullscreen(true); // Uncomment this line to hide status bar.
+
         GlistNative.onCreate();
-        GlistNative.setAssetManager(getAssets());
     }
 
     @Override

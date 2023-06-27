@@ -14,7 +14,7 @@
         android:theme="@style/Theme.GlistApp"
         tools:targetApi="31">
         <activity
-            android:name=".GlistAppActivity"
+            android:name="dev.glist.android.GlistAppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

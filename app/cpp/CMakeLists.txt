@@ -41,7 +41,7 @@ include(${ENGINE_DIR}/CMakeLists.txt)
 add_library(${APP_NAME} SHARED
         ${APP_DIR}/src/gApp.cpp
         ${APP_DIR}/src/GameCanvas.cpp
-        ${APP_DIR}/src/GlistNative.cpp)
+        ${APP_DIR}/src/main.cpp)
 
 include_directories(${APP_NAME} PRIVATE
         ${APP_DIR}/src)
