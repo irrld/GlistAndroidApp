@@ -1,5 +1,6 @@
 package dev.glist.android.lib; // Do not change! GlistEngine links to this package.
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.graphics.Insets;
 import android.os.Build;
@@ -22,6 +23,7 @@ public class GlistNative {
         System.loadLibrary("GlistAppd");
     }
 
+    @SuppressLint("StaticFieldLeak")
     private static GlistAppActivity activity;
 
     public static SurfaceView init(GlistAppActivity activity) {
@@ -46,7 +48,7 @@ public class GlistNative {
 
     public static native void setSurface(Surface surface);
     public static native void setAssetManager(AssetManager assets);
-    public static native boolean onTouchEvent(MotionEvent event, int x, int y);
+    public static native boolean onTouchEvent(int pointerCount, int[] fingerIds, int[] x, int[] y);
 
     public static void setFullscreen(boolean fullscreen) {
         if (fullscreen) {

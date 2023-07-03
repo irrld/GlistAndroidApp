@@ -2,7 +2,6 @@ package dev.glist.android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -80,8 +79,17 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     public boolean onTouchEvent(MotionEvent event) {
         int[] coords = new int[2];
         view.getLocationInWindow(coords);
-        float x = event.getRawX() - coords[0];
-        float y = event.getRawY() - coords[1];
-        return GlistNative.onTouchEvent(event, (int) x, (int) y);
+        int pointers = event.getPointerCount();
+        int[] fingerIds = new int[pointers];
+        for (int i = 0; i < pointers; i++) {
+            fingerIds[i] = event.getPointerId(i);
+        }
+        int[] x = new int[pointers];
+        int[] y = new int[pointers];
+        for (int i = 0; i < pointers; i++) {
+            x[i] = (int) (event.getAxisValue(MotionEvent.AXIS_X, i) - coords[0]);
+            y[i] = (int) (event.getAxisValue(MotionEvent.AXIS_Y, i) - coords[1]);
+        }
+        return GlistNative.onTouchEvent(pointers, fingerIds, x, y);
     }
 }
