@@ -20,6 +20,6 @@
 
 void androidMain() {
 
-    gStartEngine(new gApp(),"GlistApp", G_WINDOWMODE_GUIAPP, 720, 1280);
+    gStartEngine(new gApp(), "GlistApp", G_WINDOWMODE_APP, 720, 1280);
 
 }

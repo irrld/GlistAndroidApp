@@ -18,6 +18,12 @@ public:
 
 	void setup();
 	void update();
+
+	void pause();
+	void resume();
+	void start();
+	void stop();
+
 };
 
 #endif /* EXAMPLES_TESTEXAMPLE_GAPP_H_ */

@@ -6,16 +6,25 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 
 import org.fmod.FMOD;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 import dev.glist.android.lib.GlistNative;
-import dev.glist.glistapp.R;
 
 public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
     private SurfaceView view;
+    private final ScheduledExecutorService mainExecutor = Executors.newSingleThreadScheduledExecutor();
+    private final BlockingQueue<Runnable> executeQueue = new ArrayBlockingQueue<>(15);
+    private boolean surfaceSet = false;
+    private ScheduledFuture<?> task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,39 +35,63 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
         // Your settings can go here.
         //GlistNative.setFullscreen(true); // Uncomment this line to hide status bar.
+        executeQueue.add(GlistNative::onCreate);
+        initExecutors();
+    }
 
-        GlistNative.onCreate();
+    private void initExecutors() {
+        task = mainExecutor.scheduleAtFixedRate(() -> {
+            if (!surfaceSet) {
+                return;
+            }
+            for (Runnable runnable : executeQueue) {
+                runnable.run();
+            }
+            executeQueue.clear();
+        }, 0, 1000 / 30, TimeUnit.MILLISECONDS);
+    }
+
+    private void shutdownExecutors() {
+        if (task != null) {
+            task.cancel(false);
+        }
+        mainExecutor.shutdown();
+        for (Runnable runnable : executeQueue) {
+            runnable.run();
+        }
+        executeQueue.clear();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        GlistNative.onDestroy();
+        executeQueue.add(GlistNative::onDestroy);
         org.fmod.FMOD.close();
+        shutdownExecutors();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        GlistNative.onStart();
+        executeQueue.add(GlistNative::onStart);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        GlistNative.onStop();
+        executeQueue.add(GlistNative::onStop);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        GlistNative.onPause();
+        executeQueue.add(GlistNative::onPause);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        GlistNative.onResume();
+        executeQueue.add(GlistNative::onResume);
     }
 
     @Override
@@ -67,6 +100,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int i, int i1, int i2) {
+        surfaceSet = holder.getSurface().isValid();
         GlistNative.setSurface(holder.getSurface());
     }
 
@@ -77,6 +111,9 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!surfaceSet) {
+            return true;
+        }
         int[] coords = new int[2];
         view.getLocationInWindow(coords);
         int pointers = event.getPointerCount();

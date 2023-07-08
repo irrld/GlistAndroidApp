@@ -10,19 +10,6 @@
 
 #include "gApp.h"
 #include "gBaseCanvas.h"
-//#include "gGUIDimmer.h"
-#include "gGUIDropdownList.h"
-#include "gGUIFrame.h"
-#include "gGUIGrid.h"
-#include "gGUILineGraph.h"
-#include "gGUIListbox.h"
-#include "gGUIMenubar.h"
-#include "gGUIPanel.h"
-#include "gGUISizer.h"
-#include "gGUITextbox.h"
-#include "gGUIToolbar.h"
-#include "gImage.h"
-
 
 class GameCanvas : public gBaseCanvas {
 public:
@@ -48,25 +35,15 @@ public:
 	void showNotify();
 	void hideNotify();
 
-	void onGuiEvent(int guiObjectId, int eventType, std::string value1 = "", std::string value2 = "");
-
+	void onEvent(gEvent&) override;
+	bool onTouch(gTouchEvent&);
 private:
 	gApp* root;
-	gGUIFrame frame;
-	gGUISizer framesizer;
-	gGUIPanel panel1, panel2, panel3;
-	gGUISizer panel1sizer, panel2sizer, panel3sizer;
-	gGUISizer toolbarsizer;
-	gGUIText text;
-	gGUITextbox box;
-	gGUIListbox list;
-	gGUIDropdownList dropdown;
-	gGUIMenubar menubar;
-	gGUIToolbar toolbar;
-	gGUIToolbarButton toolbarbutton1, toolbarbutton2, toolbarbutton3, toolbarbutton4, toolbarbutton5;
-	gGUIGrid grid;
-	gGUILineGraph linegraph;
-	//gGUIDimmer dimmer;
+	gImage image;
+	gFont font;
+	std::string text;
+	int x, y;
+	int xd, yd;
 };
 
 #endif /* GAMECANVAS_H_ */

@@ -17,8 +17,24 @@ gApp::~gApp() {
 
 void gApp::setup() {
 	GameCanvas* cnv = new GameCanvas(this);
-	appmanager->setCurrentCanvas(cnv);
+	setCurrentCanvas(cnv);
 }
 
 void gApp::update() {
+}
+
+void gApp::start() {
+	gLogi("gApp") << "start";
+}
+
+void gApp::resume() {
+	gLogi("gApp") << "resume";
+}
+
+void gApp::pause() {
+	gLogi("gApp") << "pause";
+}
+
+void gApp::stop() {
+	gLogi("gApp") << "stop";
 }
