@@ -20,10 +20,10 @@ GameCanvas::~GameCanvas() {
 
 void GameCanvas::setup() {
   gLogi("GameCanvas") << "setup";
-  x = 0;
+  x = (getWidth() - image.getWidth() / 2) / 2;
   y = 0;
-  xd = 1;
-  yd = 1;
+  dx = 1;
+  dy = 1;
   font.loadFont("FreeSans.ttf", 20);
   image.loadImage("glistengine_logo.png");
   text = "FPS: 0";
@@ -33,6 +33,14 @@ void GameCanvas::onEvent(gEvent& event) {
     gEventDispatcher dispatcher{event};
 
     dispatcher.dispatch<gTouchEvent>(G_BIND_FUNCTION(onTouch));
+    dispatcher.dispatch<gAppPauseEvent>([this](gAppPauseEvent&) {
+        paused = true;
+        return false;
+    });
+    dispatcher.dispatch<gAppResumeEvent>([this](gAppResumeEvent&) {
+        paused = false;
+        return false;
+    });
 }
 
 bool GameCanvas::onTouch(gTouchEvent& event) {
@@ -41,31 +49,35 @@ bool GameCanvas::onTouch(gTouchEvent& event) {
 }
 
 void GameCanvas::update() {
+    if(paused) return;
     //	gLogi("GameCanvas") << "update";
-    x += 2 * xd;
-    y += 2 * yd;
+    float deltaTime = root->getElapsedTime();
+    x += 400.0f * dx * deltaTime;
+    y += 400.0f * dy * deltaTime;
+    gLogi("GameCanvas") << "update: " << deltaTime;
+    bool reflect = false;
     if(x < 0) {
         x = 0;
-        xd = 1;
+        dx = 1;
     }
     if(y < 0) {
         y = 0;
-        yd = 1;
+        dy = 1;
     }
-    if(x >= getWidth() - image.getWidth()) {
-        x = getWidth() - image.getWidth();
-        xd = -1;
+    if(x >= getWidth() - image.getWidth() / 2) {
+        x = getWidth() - image.getWidth() / 2;
+        dx = -1;
     }
-    if(y >= getHeight() - image.getHeight()) {
-        y = getHeight() - image.getHeight();
-        yd = -1;
+    if(y >= getHeight() - image.getHeight() / 2) {
+        y = getHeight() - image.getHeight() / 2;
+        dy = -1;
     }
     text = "FPS: " + gToStr(root->getFramerate());
 }
 
 void GameCanvas::draw() {
     //gLogi("GameCanvas") << "draw";
-    image.draw(x,y);
+    image.draw(x, y, 667 / 2, 80 / 2);
     font.drawText(text, 50, 50);
 }
 

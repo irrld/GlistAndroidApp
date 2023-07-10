@@ -8,6 +8,7 @@
 #ifndef GAMECANVAS_H_
 #define GAMECANVAS_H_
 
+#include "gImage.h"
 #include "gApp.h"
 #include "gBaseCanvas.h"
 
@@ -42,8 +43,10 @@ private:
 	gImage image;
 	gFont font;
 	std::string text;
-	int x, y;
-	int xd, yd;
+	float x, y;
+    float dx, dy;
+    bool paused;
+
 };
 
 #endif /* GAMECANVAS_H_ */
