@@ -100,7 +100,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int i, int i1, int i2) {
-        surfaceSet = holder.getSurface() != null && holder.getSurface().isValid();
+        surfaceSet = true;
         GlistNative.setSurface(holder.getSurface());
     }
 
