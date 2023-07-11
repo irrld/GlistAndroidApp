@@ -9,9 +9,9 @@ import android.view.SurfaceView;
 
 import org.fmod.FMOD;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +22,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
     private SurfaceView view;
     private final ScheduledExecutorService mainExecutor = Executors.newSingleThreadScheduledExecutor();
-    private final BlockingQueue<Runnable> executeQueue = new ArrayBlockingQueue<>(15);
+    private final BlockingDeque<Runnable> executeQueue = new LinkedBlockingDeque<>(30);
     private boolean surfaceSet = false;
     private ScheduledFuture<?> task;
 
@@ -35,7 +35,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
 
         // Your settings can go here.
         //GlistNative.setFullscreen(true); // Uncomment this line to hide status bar.
-        executeQueue.add(GlistNative::onCreate);
+        executeQueue.offerLast(GlistNative::onCreate);
         initExecutors();
     }
 
@@ -65,7 +65,7 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        executeQueue.add(GlistNative::onDestroy);
+        executeQueue.offerLast(GlistNative::onDestroy);
         org.fmod.FMOD.close();
         shutdownExecutors();
     }
@@ -73,25 +73,26 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     @Override
     protected void onStart() {
         super.onStart();
-        executeQueue.add(GlistNative::onStart);
+        executeQueue.offerLast(GlistNative::onStart);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        executeQueue.add(GlistNative::onStop);
+        executeQueue.offerLast(GlistNative::onStop);
+        surfaceSet = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        executeQueue.add(GlistNative::onPause);
+        executeQueue.offerLast(GlistNative::onPause);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        executeQueue.add(GlistNative::onResume);
+        executeQueue.offerLast(GlistNative::onResume);
     }
 
     @Override
@@ -101,12 +102,11 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int i, int i1, int i2) {
         surfaceSet = true;
-        GlistNative.setSurface(holder.getSurface());
+        executeQueue.offerFirst(() -> GlistNative.setSurface(holder.getSurface()));
     }
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
     }
 
     @Override
