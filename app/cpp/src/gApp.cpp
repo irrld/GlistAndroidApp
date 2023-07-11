@@ -17,7 +17,7 @@ gApp::~gApp() {
 
 void gApp::setup() {
 	GameCanvas* cnv = new GameCanvas(this);
-	setCurrentCanvas(cnv);
+	appmanager->setCurrentCanvas(cnv);
 }
 
 void gApp::update() {

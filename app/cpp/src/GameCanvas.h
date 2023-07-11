@@ -43,6 +43,7 @@ private:
 	gImage image;
 	gFont font;
 	std::string text;
+	int imagewidth, imageheight;
 	float x, y;
     float dx, dy;
     bool paused;

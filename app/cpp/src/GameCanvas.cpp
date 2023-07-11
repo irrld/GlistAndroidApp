@@ -8,9 +8,6 @@
 
 #include "GameCanvas.h"
 
-#include <random>
-
-
 GameCanvas::GameCanvas(gApp* root) : gBaseCanvas(root) {
   this->root = root;
 }
@@ -19,14 +16,16 @@ GameCanvas::~GameCanvas() {
 }
 
 void GameCanvas::setup() {
-  gLogi("GameCanvas") << "setup";
-  x = (getWidth() - image.getWidth() / 2) / 2;
-  y = 0;
-  dx = 1;
-  dy = 1;
-  font.loadFont("FreeSans.ttf", 20);
-  image.loadImage("glistengine_logo.png");
-  text = "FPS: 0";
+    gLogi("GameCanvas") << "setup";
+    dx = 1;
+    dy = 1;
+    font.loadFont("FreeSans.ttf", 20);
+    image.loadImage("glistengine_logo.png");
+    imagewidth = image.getWidth() / 2;
+    imageheight = image.getHeight() / 2;
+    x = (getWidth() - imagewidth) / 2;
+    y = 0;
+    text = "FPS: 0";
 }
 
 void GameCanvas::onEvent(gEvent& event) {
@@ -54,8 +53,6 @@ void GameCanvas::update() {
     float deltaTime = root->getElapsedTime();
     x += 400.0f * dx * deltaTime;
     y += 400.0f * dy * deltaTime;
-    gLogi("GameCanvas") << "update: " << deltaTime;
-    bool reflect = false;
     if(x < 0) {
         x = 0;
         dx = 1;
@@ -64,12 +61,12 @@ void GameCanvas::update() {
         y = 0;
         dy = 1;
     }
-    if(x >= getWidth() - image.getWidth() / 2) {
-        x = getWidth() - image.getWidth() / 2;
+    if(x >= getWidth() - imagewidth) {
+        x = getWidth() - imagewidth;
         dx = -1;
     }
-    if(y >= getHeight() - image.getHeight() / 2) {
-        y = getHeight() - image.getHeight() / 2;
+    if(y >= getHeight() - imageheight) {
+        y = getHeight() - imageheight;
         dy = -1;
     }
     text = "FPS: " + gToStr(root->getFramerate());
@@ -77,7 +74,7 @@ void GameCanvas::update() {
 
 void GameCanvas::draw() {
     //gLogi("GameCanvas") << "draw";
-    image.draw(x, y, 667 / 2, 80 / 2);
+    image.draw(x, y, imagewidth, imageheight);
     font.drawText(text, 50, 50);
 }
 
