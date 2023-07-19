@@ -1,21 +1,21 @@
 /*
-* GameCanvas.h
+* gCanvas.h
 *
 *  Created on: May 6, 2020
 *      Author: noyan
 */
 
-#ifndef GAMECANVAS_H_
-#define GAMECANVAS_H_
+#ifndef GCANVAS_H_
+#define GCANVAS_H_
 
 #include "gImage.h"
 #include "gApp.h"
 #include "gBaseCanvas.h"
 
-class GameCanvas : public gBaseCanvas {
+class gCanvas : public gBaseCanvas {
 public:
-	GameCanvas(gApp* root);
-	virtual ~GameCanvas();
+	gCanvas(gApp* root);
+	virtual ~gCanvas();
 
 	void setup();
 	void update();
@@ -50,4 +50,4 @@ private:
 
 };
 
-#endif /* GAMECANVAS_H_ */
+#endif /* GCANVAS_H_ */
