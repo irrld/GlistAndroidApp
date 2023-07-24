@@ -37,8 +37,10 @@ public:
 	void hideNotify();
 
 	void onEvent(gEvent&) override;
-	bool onTouch(gTouchEvent&);
+
+	void onDeviceOrientationChange(DeviceOrientation deviceorientation) override;
 private:
+	bool onTouch(gTouchEvent&);
 	gApp* root;
 	gImage image;
 	gFont font;

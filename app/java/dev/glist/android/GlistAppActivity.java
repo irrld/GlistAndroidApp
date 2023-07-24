@@ -87,12 +87,14 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     protected void onPause() {
         super.onPause();
         executeQueue.offerLast(GlistNative::onPause);
+        executeQueue.offerLast(GlistNative::disableOrientationListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         executeQueue.offerLast(GlistNative::onResume);
+        executeQueue.offerLast(GlistNative::enableOrientationListener);
     }
 
     @Override
