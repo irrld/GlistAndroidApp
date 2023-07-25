@@ -16,6 +16,7 @@ public class GlistOrientationListener extends OrientationEventListener {
 
     @Override
     public void enable() {
+        firstCheck = true;
         checkOrientation();
         super.enable();
     }
