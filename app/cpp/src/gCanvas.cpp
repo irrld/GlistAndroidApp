@@ -31,7 +31,15 @@ void gCanvas::setup() {
 void gCanvas::onEvent(gEvent& event) {
     gEventDispatcher dispatcher{event};
 
+    // Event callback function binding example
     dispatcher.dispatch<gTouchEvent>(G_BIND_FUNCTION(onTouch));
+    // Device orientation changed with events example
+    dispatcher.dispatch<gDeviceOrientationChangedEvent>([this](gDeviceOrientationChangedEvent& event) {
+        gLogi("gDeviceOrientationChangedEvent") << "orientation changed event:" << event.getOrientation();
+        return false;
+    });
+
+    // Lambda event callback examples
     dispatcher.dispatch<gAppPauseEvent>([this](gAppPauseEvent&) {
         paused = true;
         return false;
@@ -42,8 +50,14 @@ void gCanvas::onEvent(gEvent& event) {
     });
 }
 
+void gCanvas::onDeviceOrientationChange(DeviceOrientation deviceorientation) {
+    gLogi("gCanvas") << "orientation changed:" << deviceorientation;
+}
+
 bool gCanvas::onTouch(gTouchEvent& event) {
     gLogi("gCanvas") << event.getInputs()[0].x << ", " << event.getInputs()[0].y;
+    // Changing requested device orientation
+    //appmanager->setDeviceOrientation(DEVICEORIENTATION_LANDSCAPE);
     return false;
 }
 
@@ -69,13 +83,17 @@ void gCanvas::update() {
         y = getHeight() - imageheight;
         dy = -1;
     }
-    text = "FPS: " + gToStr(root->getFramerate());
+    text = "FPS: " + gToStr(root->getFramerate()) + "\n" +
+            "Width: " + gToStr(getScreenWidth()) + "\n" +
+            "Height: " + gToStr(getScreenHeight()) + "\n" +
+            "Unit Width: " + gToStr(gRenderObject::getRenderer()->getUnitWidth()) + "\n"
+            "Unit Width: " + gToStr(gRenderObject::getRenderer()->getUnitHeight());
 }
 
 void gCanvas::draw() {
     //gLogi("gCanvas") << "draw";
     image.draw(x, y, imagewidth, imageheight);
-    font.drawText(text, 50, 50);
+    font.drawText(text, 50,getHeight() - font.getStringHeight(text) * 3 - 100);
 }
 
 void gCanvas::keyPressed(int key) {

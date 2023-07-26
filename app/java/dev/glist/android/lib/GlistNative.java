@@ -14,10 +14,12 @@ import androidx.appcompat.app.ActionBar;
 import dev.glist.android.GlistAppActivity;
 import dev.glist.glistapp.R;
 
+@SuppressLint("StaticFieldLeak")
 public class GlistNative {
 
-    @SuppressLint("StaticFieldLeak")
     private static GlistAppActivity activity;
+    private static GlistOrientationListener orientationListener;
+
 
     public static SurfaceView init(GlistAppActivity activity) {
         activity.getBaseContext().getApplicationInfo();
@@ -40,6 +42,20 @@ public class GlistNative {
         SurfaceView view = activity.findViewById(R.id.surfaceview);
         view.getHolder().addCallback(activity);
         return view;
+    }
+
+    public static void enableOrientationListener() {
+        if (orientationListener == null) {
+            orientationListener = new GlistOrientationListener(activity);
+        }
+        orientationListener.enable();
+    }
+
+    public static void disableOrientationListener() {
+        if (orientationListener == null) {
+            return;
+        }
+        orientationListener.disable();
     }
 
     public static native void onCreate();
@@ -67,5 +83,16 @@ public class GlistNative {
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
         }
+    }
+
+    public static void setDeviceOrientation(int orientation) {
+        activity.setRequestedOrientation(orientation);
+        onOrientationChanged(orientation);
+    }
+
+    public static native void onOrientationChanged(int orientation);
+
+    public static GlistAppActivity getActivity() {
+        return activity;
     }
 }
