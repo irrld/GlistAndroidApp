@@ -73,7 +73,8 @@ public class GlistAppActivity extends AppCompatActivity implements SurfaceHolder
     @Override
     protected void onStart() {
         super.onStart();
-        executeQueue.offerLast(GlistNative::onStart);
+        ClassLoader loader = GlistNative.class.getClassLoader();
+        executeQueue.offerLast(() -> GlistNative.onStart(loader));
     }
 
     @Override

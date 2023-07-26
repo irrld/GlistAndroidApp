@@ -26,6 +26,19 @@ void gCanvas::setup() {
     x = (getWidth() - imagewidth) / 2;
     y = 0;
     text = "FPS: 0";
+    gShowDialog(0, "Example Title", "Example Message",
+				"ok",
+                G_BIND_FUNCTION(onDialogClick),
+                G_BIND_FUNCTION(onDialogCancel)
+    );
+}
+
+void gCanvas::onDialogClick(int dialogId, DialogButton button) {
+    gLogi("gCanvas") << "Dialog Click: " << dialogId << " button: " << button;
+}
+
+void gCanvas::onDialogCancel(int dialogId) {
+    gLogi("gCanvas") << "Dialog Cancel: " << dialogId;
 }
 
 void gCanvas::onEvent(gEvent& event) {
