@@ -30,7 +30,7 @@ public class GlistOrientationListener extends OrientationEventListener {
         WindowManager windowManager = (WindowManager)GlistNative.getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
 
-        if(lastOrientation != display.getRotation() || firstCheck){
+        if(lastOrientation != display.getRotation() || firstCheck) {
             lastOrientation = display.getRotation();
             firstCheck = false;
 
