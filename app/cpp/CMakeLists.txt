@@ -24,11 +24,9 @@ endif()
 set(APP_DIR ${CMAKE_SOURCE_DIR})
 project (${APP_NAME})
 
-set(TOP_DIR /Users/irrl/Dev/Glist)
+set(TOP_DIR ${APP_DIR}/../../../..)
 set(MAIN_DIR ${TOP_DIR}/GlistEngine)
 set(ENGINE_DIR ${MAIN_DIR}/engine)
-set(PLUGINS_DIR ${TOP_DIR}/glistplugins)
-set(ANDROID_DIR ${PLUGINS_DIR}/gipAndroid) # This should be defined before including engine's CMakeLists file.
 
 # gipAndroid plugin is required for Android development
 # It only contains libraries required for GlistEngine.

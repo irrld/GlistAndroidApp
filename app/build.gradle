@@ -8,7 +8,7 @@ android {
 
     sourceSets {
         main {
-            java.srcDirs = ['java']
+            java.srcDirs = ['java', '../../../glistplugins/gipAndroid/java']
             assets.srcDirs = ['cpp/assets']
             res.srcDirs = ['res']
             manifest.srcFile 'AndroidManifest.xml'
