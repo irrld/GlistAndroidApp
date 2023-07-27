@@ -12,7 +12,6 @@
 #include "gApp.h"
 #include "gBaseCanvas.h"
 #include "gAndroidUtil.h"
-#include "gAndroidDialog.h"
 
 
 class gCanvas : public gBaseCanvas {
@@ -44,17 +43,9 @@ public:
 	void onDeviceOrientationChange(DeviceOrientation deviceorientation) override;
 private:
 	bool onTouch(gTouchEvent&);
-	void onDialogClick(int dialogId, DialogButton button);
-	void onDialogCancel(int dialogId);
 
 	gApp* root;
-	gImage image;
-	gFont font;
-	std::string text;
-	int imagewidth, imageheight;
-	float x, y;
-    float dx, dy;
-    bool paused;
+	gImage logo;
 };
 
 #endif /* GCANVAS_H_ */

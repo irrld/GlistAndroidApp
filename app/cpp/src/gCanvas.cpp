@@ -8,6 +8,7 @@
 
 #include "gCanvas.h"
 
+
 gCanvas::gCanvas(gApp* root) : gBaseCanvas(root) {
   this->root = root;
 }
@@ -17,28 +18,7 @@ gCanvas::~gCanvas() {
 
 void gCanvas::setup() {
     gLogi("gCanvas") << "setup";
-    dx = 1;
-    dy = 1;
-    font.loadFont("FreeSans.ttf", 20);
-    image.loadImage("glistengine_logo.png");
-    imagewidth = image.getWidth() / 2;
-    imageheight = image.getHeight() / 2;
-    x = (getWidth() - imagewidth) / 2;
-    y = 0;
-    text = "FPS: 0";
-    gShowDialog(0, "Example Title", "Example Message",
-				"ok",
-                G_BIND_FUNCTION(onDialogClick),
-                G_BIND_FUNCTION(onDialogCancel)
-    );
-}
-
-void gCanvas::onDialogClick(int dialogId, DialogButton button) {
-    gLogi("gCanvas") << "Dialog Click: " << dialogId << " button: " << button;
-}
-
-void gCanvas::onDialogCancel(int dialogId) {
-    gLogi("gCanvas") << "Dialog Cancel: " << dialogId;
+    logo.loadImage("glistengine_logo.png");
 }
 
 void gCanvas::onEvent(gEvent& event) {
@@ -46,67 +26,24 @@ void gCanvas::onEvent(gEvent& event) {
 
     // Event callback function binding example
     dispatcher.dispatch<gTouchEvent>(G_BIND_FUNCTION(onTouch));
-    // Device orientation changed with events example
-    dispatcher.dispatch<gDeviceOrientationChangedEvent>([this](gDeviceOrientationChangedEvent& event) {
-        gLogi("gDeviceOrientationChangedEvent") << "orientation changed event:" << event.getOrientation();
-        return false;
-    });
+}
 
-    // Lambda event callback examples
-    dispatcher.dispatch<gAppPauseEvent>([this](gAppPauseEvent&) {
-        paused = true;
-        return false;
-    });
-    dispatcher.dispatch<gAppResumeEvent>([this](gAppResumeEvent&) {
-        paused = false;
-        return false;
-    });
+bool gCanvas::onTouch(gTouchEvent& event) {
+    gLogi("gCanvas") << "touch:" << event.getInputs()[0].x << ", " << event.getInputs()[0].y;
+    return false;
 }
 
 void gCanvas::onDeviceOrientationChange(DeviceOrientation deviceorientation) {
     gLogi("gCanvas") << "orientation changed:" << deviceorientation;
 }
 
-bool gCanvas::onTouch(gTouchEvent& event) {
-    gLogi("gCanvas") << event.getInputs()[0].x << ", " << event.getInputs()[0].y;
-    // Changing requested device orientation
-    //appmanager->setDeviceOrientation(DEVICEORIENTATION_LANDSCAPE);
-    return false;
-}
-
 void gCanvas::update() {
-    if(paused) return;
-    //	gLogi("gCanvas") << "update";
-    float deltaTime = root->getElapsedTime();
-    x += 400.0f * dx * deltaTime;
-    y += 400.0f * dy * deltaTime;
-    if(x < 0) {
-        x = 0;
-        dx = 1;
-    }
-    if(y < 0) {
-        y = 0;
-        dy = 1;
-    }
-    if(x >= getWidth() - imagewidth) {
-        x = getWidth() - imagewidth;
-        dx = -1;
-    }
-    if(y >= getHeight() - imageheight) {
-        y = getHeight() - imageheight;
-        dy = -1;
-    }
-    text = "FPS: " + gToStr(root->getFramerate()) + "\n" +
-            "Width: " + gToStr(getScreenWidth()) + "\n" +
-            "Height: " + gToStr(getScreenHeight()) + "\n" +
-            "Unit Width: " + gToStr(gRenderObject::getRenderer()->getUnitWidth()) + "\n"
-            "Unit Width: " + gToStr(gRenderObject::getRenderer()->getUnitHeight());
+  //	gLogi("gCanvas") << "update";
 }
 
 void gCanvas::draw() {
-    //gLogi("gCanvas") << "draw";
-    image.draw(x, y, imagewidth, imageheight);
-    font.drawText(text, 50,getHeight() - font.getStringHeight(text) * 3 - 100);
+  //	gLogi("gCanvas") << "draw";
+    logo.draw((getWidth() - logo.getWidth()) / 2, (getHeight() - logo.getHeight()) / 2);
 }
 
 void gCanvas::keyPressed(int key) {
