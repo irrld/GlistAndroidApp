@@ -4,7 +4,8 @@ Welcome to GlistAndroidApp! This repository serves as a project template for Gli
 
 ## Cloning
 
-To get started, follow these steps to clone the repository to your local development environment:
+To get started, you should clone [GlistPlugins/gipAndroid](https://github.com/GlistPlugins/gipAndroid) first, please see it's README section for instructions.
+Then follow these steps to clone the repository to your local development environment:
 
 1. For Windows, clone the repository to `C:/dev/glist/myglistapps`.
 2. For Linux and Mac, clone the repository to `~/dev/glist/myglistapps`.
