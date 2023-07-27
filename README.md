@@ -1,18 +1,29 @@
 # GlistAndroidApp
 
-This repository is a project template for GlistEngine Android development.
+Welcome to GlistAndroidApp! This repository serves as a project template for GlistEngine Android development, making it easier for you to get started with your Android projects using GlistEngine.
 
-# Cloning
+## Cloning
 
-You should clone this repository under C:/dev/glist/myglistapps for Windows or ~/dev/glist/myglistapps for Linux and Mac. 
+To get started, follow these steps to clone the repository to your local development environment:
 
-# Troubleshooting
+1. For Windows, clone the repository to `C:/dev/glist/myglistapps`.
+2. For Linux and Mac, clone the repository to `~/dev/glist/myglistapps`.
+
+## Troubleshooting
+
+Encountering issues? Here are some common problems and their solutions:
 
 ### Unable to see C++ project files
 
-If you are unable to see cpp files, you can try refreshing linked projects from menu `Build -> Refresh Linked C++ Projects`
+If you find that the C++ files are not visible in your project, try the following steps:
 
-### This project is using an incompatible version of the Android Gradle plugin.
+1. Go to the menu `Build -> Refresh Linked C++ Projects` to refresh the linked projects and update the file visibility.
 
-If you are having this error, you should update your Android Studio.
+### Incompatible version of the Android Gradle plugin
 
+If you encounter the error message "This project is using an incompatible version of the Android Gradle plugin," follow these instructions:
+
+1. Make sure you have the latest version of Android Studio installed on your system.
+2. Update the Android Gradle plugin to its latest compatible version.
+
+By addressing these common troubleshooting steps, you should be able to resolve the mentioned issues effectively.
