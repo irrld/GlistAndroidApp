@@ -34,15 +34,15 @@ void gCanvas::deviceOrientationChanged(DeviceOrientation deviceorientation) {
 
 }
 
-void gCanvas::touchMoved(const TouchInput &input) {
+void gCanvas::touchMoved(int x, int y, int fingerId) {
 
 }
 
-void gCanvas::touchPressed(const TouchInput &input) {
+void gCanvas::touchPressed(int x, int y, int fingerId) {
 
 }
 
-void gCanvas::touchReleased(const TouchInput &input) {
+void gCanvas::touchReleased(int x, int y, int fingerId) {
 
 }
 
