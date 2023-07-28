@@ -27,14 +27,14 @@ void gApp::start() {
 	gLogi("gApp") << "start";
 }
 
-void gApp::resume() {
-	gLogi("gApp") << "resume";
+void gApp::stop() {
+	gLogi("gApp") << "stop";
 }
 
 void gApp::pause() {
 	gLogi("gApp") << "pause";
 }
 
-void gApp::stop() {
-	gLogi("gApp") << "stop";
+void gApp::resume() {
+	gLogi("gApp") << "resume";
 }

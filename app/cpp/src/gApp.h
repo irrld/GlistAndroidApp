@@ -8,10 +8,10 @@
 #ifndef EXAMPLES_TESTEXAMPLE_GAPP_H_
 #define EXAMPLES_TESTEXAMPLE_GAPP_H_
 
-#include "gBaseApp.h"
+#include "gAndroidApp.h"
 
 
-class gApp : public gBaseApp {
+class gApp : public gAndroidApp {
 public:
 	gApp();
 	~gApp();
@@ -19,11 +19,11 @@ public:
 	void setup();
 	void update();
 
-	void pause();
-	void resume();
 	void start();
 	void stop();
 
+	void pause();
+	void resume();
 };
 
 #endif /* EXAMPLES_TESTEXAMPLE_GAPP_H_ */
