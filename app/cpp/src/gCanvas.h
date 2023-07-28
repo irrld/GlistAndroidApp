@@ -25,9 +25,9 @@ public:
 
 	void deviceOrientationChanged(DeviceOrientation deviceorientation);
 
-	void touchMoved(const TouchInput& input);
-	void touchPressed(const TouchInput& input);
-	void touchReleased(const TouchInput& input);
+	void touchMoved(int x, int y, int fingerId);
+	void touchPressed(int x, int y, int fingerId);
+	void touchReleased(int x, int y, int fingerId);
 
 	void pause();
 	void resume();
