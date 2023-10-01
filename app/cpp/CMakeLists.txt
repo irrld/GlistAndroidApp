@@ -28,11 +28,6 @@ set(TOP_DIR ${APP_DIR}/../../../..)
 set(MAIN_DIR ${TOP_DIR}/GlistEngine)
 set(ENGINE_DIR ${MAIN_DIR}/engine)
 
-# gipAndroid plugin is required for Android development
-# It only contains libraries required for GlistEngine.
-list(APPEND PLUGINS
-        gipAndroid)
-
 include(${ENGINE_DIR}/CMakeLists.txt)
 
 ########## SOURCE FILES AND INCLUDE DIRECTORIES ##########
